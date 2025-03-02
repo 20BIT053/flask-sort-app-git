@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sort Numbers</title>
+</head>
+<body>
+    <h2>Enter numbers to sort:</h2>
+    <input type="text" id="numbers" placeholder="Enter numbers separated by commas">
+    <button onclick="sendPostRequest()">Sort</button>
+    <p id="result"></p>
+
+    <script>
+        function sendPostRequest() {
+            let numbers = document.getElementById("numbers").value.split(',').map(Number);
+            
+            fetch('/sort', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ "numbers": numbers })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = "Sorted Numbers: " + data.sorted_numbers;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
